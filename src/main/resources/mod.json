@@ -1,0 +1,13 @@
+{
+
+  "main":"org.fuzzypattern.vertx.mods.SmppClient",
+  "worker": true,
+
+  "description":"Simple SMPP client, with auto-reconnect capabilities",
+  "licenses": ["The Apache Software License Version 2.0"],
+  "author": "Ioannis Alexandrakis",
+  "keywords": ["smpp", "cloudhopper"],
+  "homepage": "http://www.fuzzypattern.org",
+
+  "auto-redeploy": true
+}
