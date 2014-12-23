@@ -45,7 +45,7 @@ public abstract class AbstractSmppTest extends TestVerticle {
 
     public static SmppServer createSmppServer() {
         SmppServerConfiguration configuration = new SmppServerConfiguration();
-        configuration.setPort(Integer.valueOf(System.getProperty("port")));
+        configuration.setPort(Integer.valueOf(System.getProperty("port", "2776")));
         configuration.setMaxConnectionSize(10);
         configuration.setNonBlockingSocketsEnabled(true);
         configuration.setDefaultRequestExpiryTimeout(30000);
@@ -110,8 +110,8 @@ public abstract class AbstractSmppTest extends TestVerticle {
     JsonObject getConfig() {
         JsonObject config = new JsonObject();
         config.putString("address", ADDRESS);
-        config.putString("host", System.getProperty("host"));
-        config.putNumber("port", Integer.valueOf(System.getProperty("port")));
+        config.putString("host", System.getProperty("host", "localhost"));
+        config.putNumber("port", Integer.valueOf(System.getProperty("port", "2776")));
         config.putString("username", System.getProperty("username"));
         config.putString("password", System.getProperty("password"));
         return config;
