@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.vertx.mods</groupId>
+  <groupId>org.fuzzypattern.vertx.mods</groupId>
   <artifactId>mod-smpp-client</artifactId>
   <packaging>jar</packaging>
   <version>0.1.0</version>
@@ -66,19 +66,19 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
       <version>${vertx.version}</version>
-      <!--<scope>provided</scope>-->
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-platform</artifactId>
       <version>${vertx.version}</version>
-      <!--<scope>provided</scope>-->
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-hazelcast</artifactId>
       <version>${vertx.version}</version>
-      <!--<scope>provided</scope>-->
+      <scope>provided</scope>
     </dependency>
     <!--compile dependencies - needed within the verticle-->
     <dependency>
