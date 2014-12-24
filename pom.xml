@@ -3,18 +3,40 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.fuzzypattern.vertx.mods</groupId>
+  <groupId>org.fuzzypattern.vertx</groupId>
   <artifactId>mod-smpp-client</artifactId>
   <packaging>jar</packaging>
   <version>0.1.0</version>
-  <name>Vert.x module :: mod-smpp-client</name>
-  <url>http://maven.apache.org</url>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>A simple smpp client module for vert.x</description>
+  <url>http://www.fuzzypattern.org</url>
 
   <parent>
-     <groupId>org.sonatype.oss</groupId>
-     <artifactId>oss-parent</artifactId>
-     <version>7</version>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
   </parent>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Ioannis Alexandrakis</name>
+      <email>i.alexandrakis@gmail.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:ialexandrakis/vertx-mod-smpp-client.git</connection>
+    <developerConnection>scm:git:git@github.com:ialexandrakis/vertx-mod-smpp-client.git</developerConnection>
+    <url>git@github.com:ialexandrakis/vertx-mod-smpp-client.git</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
