@@ -52,7 +52,7 @@ class SmppSessionConnector implements Handler<Long> {
     private void enquireLink() {
         try {
             EnquireLinkResp enquireLinkResp = session.enquireLink(new EnquireLink(), 5000);
-            log.info("enquireLinkResp: command [" + enquireLinkResp.getCommandStatus() + "=" + enquireLinkResp.getResultMessage() + "], Thread ID: " + Thread.currentThread().getId());
+            log.debug("enquireLinkResp: command [" + enquireLinkResp.getCommandStatus() + "=" + enquireLinkResp.getResultMessage() + "], Thread ID: " + Thread.currentThread().getId());
 //            if (enquireLinkResp.getCommandStatus() == 0) {
 //                return true;
 //            }
