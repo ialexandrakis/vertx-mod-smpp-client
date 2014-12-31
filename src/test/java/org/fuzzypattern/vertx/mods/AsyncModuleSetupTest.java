@@ -31,7 +31,8 @@ import static org.vertx.testtools.VertxAssert.testComplete;
 /**
  * @author <a href="http://www.fuzzypattern.org/">Ioannis Alexandrakis</a>
  */
-public class ModuleSetupTest extends AbstractSmppTest {
+public class AsyncModuleSetupTest extends AbstractSmppTest {
+
 
     @Test
     public void testSendSms() {
@@ -39,7 +40,7 @@ public class ModuleSetupTest extends AbstractSmppTest {
         addOptionalConfig(object);
 
 //        object.putBinary("textBytes", CharsetUtil.encode("This is a vert.x-smpp test message. \u20AC", CharsetUtil.CHARSET_GSM));
-        object.putString("textString", "This is a vert.x-smpp test message. \u20AC"); // one of the two is mandatory, bytes or string
+        object.putString("textString", "This is a vert.x-smpp async test message. \u20AC"); // one of the two is mandatory, bytes or string
         object.putString("source", "TEST"); // mandatory
         object.putString("destination", System.getProperty("destination", "301234567890")); // mandatory
 
@@ -56,7 +57,9 @@ public class ModuleSetupTest extends AbstractSmppTest {
     @Override
     public void start() {
         initialize();
-        container.deployModule(System.getProperty("vertx.modulename"), getConfig(), new AsyncResultHandler<String>() {
+        JsonObject newConf = getConfig();
+        newConf.putString("mode", "async");
+        container.deployModule(System.getProperty("vertx.modulename"), newConf, new AsyncResultHandler<String>() {
             @Override
             public void handle(AsyncResult<String> asyncResult) {
                 assertTrue(asyncResult.succeeded());

@@ -29,6 +29,7 @@ import com.cloudhopper.smpp.pdu.PduRequest;
 import com.cloudhopper.smpp.pdu.PduResponse;
 import com.cloudhopper.smpp.type.SmppChannelException;
 import com.cloudhopper.smpp.type.SmppProcessingException;
+import org.junit.AfterClass;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.core.logging.Logger;
 import org.vertx.java.core.logging.impl.LoggerFactory;
@@ -42,6 +43,12 @@ import java.lang.ref.WeakReference;
 public abstract class AbstractSmppTest extends TestVerticle {
     private static final Logger log = LoggerFactory.getLogger(AbstractSmppTest.class);
     static final String ADDRESS = "vertx.mod-smpp";
+    private static final SmppServer server = createSmppServer();
+
+    @AfterClass
+    public static void oneTimeTearDown() {
+        server.stop();
+    }
 
     public static SmppServer createSmppServer() {
         SmppServerConfiguration configuration = new SmppServerConfiguration();
@@ -69,7 +76,6 @@ public abstract class AbstractSmppTest extends TestVerticle {
     }
 
     private static class DefaultSmppServerHandler implements SmppServerHandler {
-
         @Override
         public void sessionBindRequested(Long sessionId, SmppSessionConfiguration sessionConfiguration, final BaseBind bindRequest) throws SmppProcessingException {
             sessionConfiguration.setName("Application.SMPP." + sessionConfiguration.getSystemId());
@@ -88,11 +94,9 @@ public abstract class AbstractSmppTest extends TestVerticle {
             log.info("Session destroyed: " + session);
             session.destroy();
         }
-
     }
 
     public static class TestSmppSessionHandler extends DefaultSmppSessionHandler {
-
         private final WeakReference<SmppSession> sessionRef;
 
         public TestSmppSessionHandler(SmppSession session) {
@@ -103,8 +107,21 @@ public abstract class AbstractSmppTest extends TestVerticle {
         public PduResponse firePduRequestReceived(PduRequest pduRequest) {
             SmppSession session = sessionRef.get();
             log.info(String.format("Received: %s from session: %s", pduRequest, session));
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
             return pduRequest.createResponse();
         }
+    }
+
+    void addOptionalConfig(JsonObject object) {
+        object.putValue("sourceTon", (byte) 0x03); // optional
+        object.putValue("sourceNpi", (byte) 0x00); // optional
+        object.putValue("destTon", (byte) 0x01); // optional
+        object.putValue("destNpi", (byte) 0x01); // optional
+        object.putNumber("timeoutMillis", 10000L); // optional
     }
 
     JsonObject getConfig() {

@@ -41,6 +41,7 @@ public class SmppClient extends BusModBase implements Handler<Message<JsonObject
 
     private DefaultSmppClient smppClient;
     private SmppSessionConnector preservingSessionHandler;
+    private SmppBootstrap.SmppMode mode;
     private Long preservingSessionTimerId = null;
 
     private Charset charset;
@@ -56,10 +57,11 @@ public class SmppClient extends BusModBase implements Handler<Message<JsonObject
         String password = getOptionalStringConfig("password", null);
 
         SmppBindType type = SmppBindType.valueOf(getOptionalStringConfig("type", "TRANSMITTER"));
-        Integer windowSize = getOptionalIntConfig("window.size", 1);
+        Integer windowSize = getOptionalIntConfig("window.size", 100);
         Integer connectTimeout = getOptionalIntConfig("timeout.connect", 10000);
         Integer requestTimeout = getOptionalIntConfig("timeout.request", 30000);
         charset = CharsetUtil.charsets.get(getOptionalStringConfig("charset", "GSM"));
+        mode = SmppBootstrap.SmppMode.valueOf(getOptionalStringConfig("mode", "sync").toUpperCase());
 
         smppClient = new DefaultSmppClient(Executors.newCachedThreadPool(), 1);
 
@@ -111,11 +113,27 @@ public class SmppClient extends BusModBase implements Handler<Message<JsonObject
                 submit.setSourceAddress(new Address(sourceTon, sourceNpi, object.getString("source")));
                 submit.setDestAddress(new Address(destTon, destNpi, object.getString("destination")));
                 submit.setShortMessage(textBytes);
-                SubmitSmResp resp = preservingSessionHandler.getSession().submit(submit, object.getLong("timeoutMillis", 10000));
-                if (resp.getCommandStatus() == 0) {
-                    sendOK(jsonObjectMessage);
-                } else {
-                    sendError(jsonObjectMessage, resp.getResultMessage());
+                submit.setReferenceObject(jsonObjectMessage);
+
+                switch (mode) {
+                    case ASYNC:
+//                        WindowFuture<Integer, PduRequest, PduResponse> future = preservingSessionHandler.getSession().sendRequestPdu(submit, object.getLong("timeoutMillis", 10000), false);
+//                        long start = System.currentTimeMillis();
+                        preservingSessionHandler.getSession().sendRequestPdu(submit, object.getLong("timeoutMillis", 10000), false);
+//                        logger.info("time: " + (System.currentTimeMillis() - start));
+                        break;
+                    case SYNC:
+//                        start = System.currentTimeMillis();
+                        SubmitSmResp resp = preservingSessionHandler.getSession().submit(submit, object.getLong("timeoutMillis", 10000));
+//                        logger.info("time: " + (System.currentTimeMillis() - start));
+                        if (resp.getCommandStatus() == 0) {
+                            sendOK(jsonObjectMessage);
+                        } else {
+                            sendError(jsonObjectMessage, resp.getResultMessage());
+                        }
+                        break;
+                    default:
+                        break;
                 }
             } catch (RecoverablePduException | InterruptedException | SmppChannelException | UnrecoverablePduException | SmppTimeoutException | RuntimeException e) {
                 logger.error(e.getMessage(), e);

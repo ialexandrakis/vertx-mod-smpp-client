@@ -1,7 +1,7 @@
 {
 
-  "main":"org.fuzzypattern.vertx.mods.SmppClient",
-  "worker": true,
+  "main":"org.fuzzypattern.vertx.mods.SmppBootstrap",
+  "worker": false,
 
   "description":"Simple SMPP client, with auto-reconnect capabilities",
   "licenses": ["The Apache Software License Version 2.0"],
