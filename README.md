@@ -11,31 +11,33 @@ This module requires an SMPP server to be available on the network.
 This `smpp-client` module takes the following configuration:
 
     {
-        "address": <address>,
-        "host": <host>,
-        "port": <port>,
-        "username": <username - optional>,
-        "password": <password - optional>,
-        "window.size": <int - optional default 1>,
+        "mode": <string - optional default "sync", other value "async">,
+        "address": <string - mandatory>,
+        "host": <string - mandatory>,
+        "port": <int - mandatory>,
+        "username": <string - optional>,
+        "password": <string - optional>,
+        "window.size": <int - async mode only optional default 100>,
         "timeout.connect": <int - optional default 10000>,
         "timeout.request": <int - optional default 30000>,
-        "charset": <default - optional "GSM">
+        "charset": <string optional default "GSM">
     }
 
 For example:
 
     {
-        "address": "vertx.mod-smpp",
+        "mode": "async"
+        "address: "vertx.mod-smpp",
         "host": "localhost",
         "port": 2776,
     }
 
 More specifically:
-
+* `mode` The mode of the module. Sync mode means worker module, waiting synchronously for SMSC's responses. Async mode means sending all requests without waiting for a response from the SMSC. ATTENTION: carefully set the `window.size`, see below why.
 * `address` The main address for the module. Every module has a main address. Defaults to `vertx.mod-smpp`.
 * `host` Host name or ip address of the SMPP server.
 * `port` Port at which the SMPP server is listening.
-* `window.size` Maximum number of open transactions before requiring a response to at least one of those. Defaults to `1`.
+* `window.size` Async mode only. Maximum number of open requests before requiring a response to at least one of those. Defaults to `100`. Further requests without even a single response from the SMSC will block the thread, be careful (set a high value).
 * `timeout.connect` Connect timeout to the SMPP server. Default is `10000` millis.
 * `timeout.request` Time to wait for an endpoint to respond to a request before it exmpires. Defaults to `30000` millis.
 * `charset` The character set to encode/decode the message. Defaults to `GSM`, other values are (from the cloudhopper lib): `UTF-8`, `MODIFIED-UTF8`, `AIRWIDE-IA5`, `VFD2-GSM`, `VFTR-GSM`, `GSM7`, `GSM8`, `AIRWIDE-GSM`, `TMOBILE-NL-GSM`, `ISO-8859-1`, `ISO-8859-15`, `PACKED-GSM`, `UCS-2`.
@@ -91,5 +93,3 @@ If an error occurs an erroneous reply is returned:
 
 Where
 * `message` is the error message.
-
-
