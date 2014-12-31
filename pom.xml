@@ -64,6 +64,7 @@
     <junit.version>4.11</junit.version>
 
     <!--Plugin versions-->
+    <maven.nexus.staging.plugin.version>1.6.4</maven.nexus.staging.plugin.version>
     <maven.compiler.plugin.version>3.0</maven.compiler.plugin.version>
     <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
     <maven.clean.plugin.version>2.5</maven.clean.plugin.version>
@@ -75,12 +76,14 @@
     <maven.dependency.plugin.version>2.7</maven.dependency.plugin.version>
   </properties>
 
+  <!--
   <repositories>
     <repository>
       <id>sonatype-nexus-snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
   </repositories>
+  -->
 
   <dependencies>
     <!--Vertx provided dependencies-->
@@ -311,6 +314,16 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>${maven.nexus.staging.plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <serverId>ossrh-releases-org.fuzzypattern</serverId>
+        </configuration>
       </plugin>
     </plugins>
   </build>
