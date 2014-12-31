@@ -39,7 +39,7 @@ More specifically:
 * `port` Port at which the SMPP server is listening.
 * `window.size` Async mode only. Maximum number of open requests before requiring a response to at least one of those. Defaults to `100`. Further requests without even a single response from the SMSC will block the thread, be careful (set a high value).
 * `timeout.connect` Connect timeout to the SMPP server. Default is `10000` millis.
-* `timeout.request` Time to wait for an endpoint to respond to a request before it exmpires. Defaults to `30000` millis.
+* `timeout.request` Time to wait for an endpoint to respond to a request before it expires. Defaults to `30000` millis.
 * `charset` The character set to encode/decode the message. Defaults to `GSM`, other values are (from the cloudhopper lib): `UTF-8`, `MODIFIED-UTF8`, `AIRWIDE-IA5`, `VFD2-GSM`, `VFTR-GSM`, `GSM7`, `GSM8`, `AIRWIDE-GSM`, `TMOBILE-NL-GSM`, `ISO-8859-1`, `ISO-8859-15`, `PACKED-GSM`, `UCS-2`.
 
 ## Operations
