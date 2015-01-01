@@ -6,7 +6,7 @@
   <groupId>org.fuzzypattern.vertx</groupId>
   <artifactId>mod-smpp-client</artifactId>
   <packaging>jar</packaging>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>A simple smpp client module for vert.x</description>
   <url>http://www.fuzzypattern.org</url>
