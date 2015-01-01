@@ -9,7 +9,7 @@
   <version>0.2.1</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>A simple smpp client module for vert.x</description>
-  <url>http://www.fuzzypattern.org</url>
+  <url>https://github.com/ialexandrakis/vertx-mod-smpp-client</url>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
