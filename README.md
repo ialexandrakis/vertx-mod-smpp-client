@@ -26,10 +26,10 @@ This `smpp-client` module takes the following configuration:
 For example:
 
     {
-        "mode": "async"
-        "address: "vertx.mod-smpp",
+        "mode": "async",
+        "address": "vertx.mod-smpp",
         "host": "localhost",
-        "port": 2776,
+        "port": 2776
     }
 
 More specifically:
